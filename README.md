@@ -19,3 +19,9 @@ The file `condition_number_tests.py` shows that the `Q` factor in `AP=QR` has `1
 the `l1rrqr` algorithm starts to fail. This is likely because it does not have logic for handling the rank deficient case,
 which is fixable.
 
+
+## Factorization error tests
+
+The file `factorization_error_tests.py` shows that the error `AP-QR` measured in the `1-norm` is independent of the 
+`1-norm` condition number of `A`. Again the factorization appears to fail in the rank deficient case, so in these
+cases the error is very large
