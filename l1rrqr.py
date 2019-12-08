@@ -59,24 +59,35 @@ def l1rrqr(A,tol=1e-15):
     i=0
     Q[:,i]=A[:,k]/np.linalg.norm(A[:,k],ord=1)
     R[i,i]=np.linalg.norm(A[:,k],ord=1)
+    first=True
+    rank=min(m,n)
     while sin:
         i=i+1
         V=Q[:,0:i]
         vals=[l1alg(V,A[:,i])[1] for i in sin]
+        val=np.amax(vals)
         ids=list(sin)
         k=ids[np.argmax(vals)]
         sout.add(k)
         sin=sin.difference(sout)
         perm.append(k)
-        (c,objf)=l1alg(V,A[:,k])
-        print(c)
-        print(c.shape)
-        print(V.shape)
-        y=A[:,k]-V@c
-        Q[:,i]=y/np.linalg.norm(y,ord=1)
-        R[0:i,i]=c
-        R[i,i]=np.linalg.norm(y,ord=1)
-    return (Q,R,perm)
+        if val<tol:
+            if first:
+                rank=i
+                first=False
+            (c,objf)=l1alg(V,A[:,k])
+            y=A[:,k]-V@c
+            R[0:i,i]=c
+            R[i,i]=np.linalg.norm(y,ord=1)
+        else:
+            (c,objf)=l1alg(V,A[:,k])
+            y=A[:,k]-V@c
+            Q[:,i]=y/np.linalg.norm(y,ord=1)
+            R[0:i,i]=c
+            R[i,i]=np.linalg.norm(y,ord=1)
+
+    return (Q[:,0:rank],R[0:rank,:],perm)
+
 
 
 

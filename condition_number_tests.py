@@ -10,7 +10,7 @@ from l1rrqr import l1rrqr
 seed=234234
 np.random.seed(seed)
 
-nconds=10
+nconds=7
 minorder=5
 maxorder=30
 print("Matrix order,Condition of full matrix,Condition of Q")
